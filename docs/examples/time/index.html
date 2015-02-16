@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script src="bower_components/signalr/jquery.signalR.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var connection = $.connection('/signalr');
+            connection.error(function(error){
+                console.log(error);
+            });
+            connection.received(function (data) {
+                $('h1').text('The time is ' + data.time.toString());
+            });
+
+            connection.start().done(function() {
+                console.log("connection started!");
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>The time is now!</h1>
+</body>
+</html>
