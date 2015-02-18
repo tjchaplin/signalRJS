@@ -17,6 +17,7 @@
         $(function () {
             var connection = $.connection.hub;
             var chatHub = $.connection.chatHub;
+            chatHub.logging = true;
 
             chatHub.client.broadcast = function (userName,message) {
                 // Html encode display name and message. 
