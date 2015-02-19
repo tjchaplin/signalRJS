@@ -3,7 +3,7 @@
 
 A Node.js server implementation of [Signalr](http://signalr.net/).  It works with the [2.0 signalr javascript client](https://github.com/SignalR/bower-signalr)
 
-[![Build Status](https://travis-ci.org/tjchaplin/signalrjs.png)](https://travis-ci.org/tjchaplin/signalrjs)
+[![Build Status](https://travis-ci.org/tjchaplin/signalRJS.svg?branch=master)](https://travis-ci.org/tjchaplin/signalRJS)
 
 # Install
 
