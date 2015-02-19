@@ -194,4 +194,5 @@ chatHub.client.broadcast = function (message) {
 	console.log('some message:'+message)
 };
 ```
+
 Now the server can communicate to the clients.
