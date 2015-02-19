@@ -14,6 +14,7 @@ npm install signalrjs
 # Quick Start - Persistent Connection
 
 ## The Server
+
 ```javascript
 var express = require('express');
 var SignalRJS = require('signalrjs');
@@ -33,33 +34,8 @@ signalR.on('CONNECTED',function(){
 });
 ```
 
-
-# Quick Start - Hub Connection
-
-The Server
-```javascript
-var express = require('express');
-var SignalRJS = require('signalrjs');
-
-//Init SignalRJs
-var signalR = SignalRJS();
-
-//Create the hub connection
-//NOTE: Server methods are defined as an object on the second argument
-signalR.hub('chatHub',{
-	send : function(userName,message){
-		this.clients.all.invoke('broadcast').withArgs([userName,message])
-		console.log('send:'+message);
-	}
-});
-
-var server = express();
-server.use(express.static(__dirname));
-server.use(signalR.createListener())
-server.listen(3000);
-```
-
 ## The Client
+
 ```html
 <!DOCTYPE html>
 <html xmlns="">
@@ -87,28 +63,35 @@ server.listen(3000);
 </html>
 ```
 
-## The Server
+# Quick Start - Hub Connection
+
+##The Server
+
 ```javascript
 var express = require('express');
 var SignalRJS = require('signalrjs');
 
+//Init SignalRJs
 var signalR = SignalRJS();
 
-var server = express();
-server.use(signalR.createListener())
-server.use(express.static(__dirname));
-server.listen(3000);
-
-signalR.on('CONNECTED',function(){
-	console.log('connected');
-	setInterval(function () {
-		signalR.send({time:new Date()});
-	},1000)
+//Create the hub connection
+//NOTE: Server methods are defined as an object on the second argument
+signalR.hub('chatHub',{
+	send : function(userName,message){
+		this.clients.all.invoke('broadcast').withArgs([userName,message])
+		console.log('send:'+message);
+	}
 });
+
+var server = express();
+server.use(express.static(__dirname));
+server.use(signalR.createListener())
+server.listen(3000);
 ```
 
-The Client
-```javascript
+##The Client
+
+```html
 <!DOCTYPE html>
 <html>
 <head>
