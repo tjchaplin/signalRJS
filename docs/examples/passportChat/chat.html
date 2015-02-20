@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        .container {
+            background-color: #99CCFF;
+            border: thick solid #808080;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+    <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script src="bower_components/signalr/jquery.signalR.js" type="text/javascript"></script>
+    <script src="signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            var loggedInUser = null;
+            var connection = $.connection.hub;
+            var chatHub = $.connection.chatHub;
+            chatHub.logging = true;
+
+            chatHub.client.broadcast = function (fromUserName,message) {
+                // Html encode display name and message. 
+                var encodedName = $('<div />').text(fromUserName).html();
+                var encodedMsg = $('<div />').text(message).html();
+                // Add the message to the page. 
+                $('#groupDiscussion').append('<li><strong>' + encodedName
+                                        + '</strong>:&nbsp;&nbsp;' 
+                                        + encodedMsg + '</li>');
+            };
+            chatHub.client.onPrivateMessage = function (fromUserName,message) {
+                // Html encode display name and message. 
+                var encodedName = $('<div />').text(fromUserName).html();
+                var encodedMsg = $('<div />').text(message).html();
+                // Add the message to the page. 
+                $('#privateDiscussion').append('<li><strong>' + encodedName
+                                        + '</strong>:&nbsp;&nbsp;' 
+                                        + encodedMsg + '</li>');
+            };
+            // Set initial focus to message input box.  
+            $('#message').focus();
+
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    chatHub.server.broadcast(loggedInUser.userName,$('#message').val());
+                    $('#message').val('').focus();
+                });
+                $('#sendPrivateMessage').click(function () {
+                    chatHub.server.privateSend(loggedInUser.userName,$('#privateMessageToUser').val(),$('#privateMessage').val());
+
+                    chatHub.client.onPrivateMessage(loggedInUser.userName,$('#privateMessage').val())
+                    $('#privateMessage').val('').focus();
+                });
+            });
+            $.get('/identity',function(data){
+                loggedInUser = data;
+            })
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Group Messages</h1>
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+
+        <ul id="groupDiscussion">
+        </ul>
+    </div>
+    <div class="container">
+        <h1>Private Messages</h1>
+        <input type="text" id="privateMessage" />
+        <input type="text" id="privateMessageToUser" />
+        <input type="button" id="sendPrivateMessage" value="Send" />
+
+        <ul id="privateDiscussion">
+        </ul>
+    </div>
+</body>
+</html>

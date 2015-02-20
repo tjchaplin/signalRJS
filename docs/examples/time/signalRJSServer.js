@@ -10,7 +10,7 @@ server.listen(3000);
 signalR.on(EVENT_CONSTANTS.connected,function(){
 	console.log('connected');
 	setInterval(function () {
-		signalR.send({time:new Date()});
+		signalR.broadcast({time:new Date()});
 	},1000)
 	
 })

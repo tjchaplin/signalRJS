@@ -31,6 +31,6 @@
     "gulp-jshint": "^1.9.2",
     "gulp-mocha": "^2.0.0",
     "gulp-util": "^3.0.3",
-    "http-server": "^0.7.4"
+    "sinon": "~1.12.2"
   }
 }
