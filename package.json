@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/tjchaplin/signalRJS",
   "dependencies": {
+    "connect": "^3.3.4",
     "node-uuid": "^1.4.2"
   },
   "devDependencies": {
