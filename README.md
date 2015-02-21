@@ -141,6 +141,8 @@ The implementation currently supports the following transports:
 Check out the Docs section to see an examples for:
 * A Time server
 * A chat server
+* A private server
+* A chat server with passport authentication
 
 # Supported Connections
 
@@ -179,3 +181,23 @@ chatHub.client.broadcast = function (message) {
 ```
 
 Now the server can communicate to the clients.
+
+# Handling User
+These methods are provided to make it easier to set a user for a connection.  If you ar using Signalr .Net you would use Integrated authentication, since signalrjs uses node.js it handles user authentication slightly differet.
+
+## With the client
+Signalrjs provides the ability for clients to set the user name for a connection. NOTE: **this is non-standard** and is not part of the Signalr.
+
+In the client this can be done as follows:
+```javascript
+$.connection.hub.start().done(function () {
+    $.connection.$user('anyUserName');
+});
+```
+NOTE: setting a user can only be done after the connection has been set;
+See the privateChat example to see this in action.
+
+# With Passport
+Passport provides the ability to use several *strategies* to manage user authentication.  If you use passport, then signalrjs will automatically set the user for a particular connection.
+See the passportChat example to see this in action.
+
