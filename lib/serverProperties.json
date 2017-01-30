@@ -1,0 +1,11 @@
+{
+  "KeepAliveTimeout": 20.0,
+  "DisconnectTimeout": 30.0,
+  "ConnectionTimeout": 110.0,
+  "TryWebSockets": true,
+  "ProtocolVersion": "1.5",
+  "TransportConnectTimeout": 5.0,
+  "LongPollDelay": 0.0,
+  "HeartBeatInterval": 15000,
+  "Url": "/signalr"
+}

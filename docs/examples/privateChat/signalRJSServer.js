@@ -1,9 +1,12 @@
 var express = require('express');
+var http = require('http');
 var SignalRJS = require('../../../index');
 var morgan = require('morgan');
 var users = [];
 
 var signalR = SignalRJS();
+var server = http.createServer();
+
 signalR.hub('chatHub',{
 	broadcast : function(fromUserName,message){
 		this.clients.all.invoke('broadcast').withArgs([fromUserName,message])
@@ -15,11 +18,16 @@ signalR.hub('chatHub',{
 	}
 });
 
-var server = express();
-server.use(morgan('dev'));
-server.use(express.static(__dirname));
-server.use(signalR.createListener())
+var app = express();
+app.use(morgan('dev'));
+app.use(express.static(__dirname));
+app.use(signalR.createListener())
+
+signalR.createWsListener(server)
+
+server.on('request', app);
 server.listen(3000);
+
 signalR.on('CONNECTED',function(){
 	console.log('connected');
 });
