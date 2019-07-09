@@ -65,7 +65,7 @@ signalR.on('CONNECTED',function(){
 
 # Quick Start - Hub Connection
 
-##The Server
+## The Server
 
 ```javascript
 var express = require('express');
@@ -89,7 +89,7 @@ server.use(signalR.createListener())
 server.listen(3000);
 ```
 
-##The Client
+## The Client
 
 ```html
 <!DOCTYPE html>
